@@ -10,8 +10,15 @@
     ViewData["Title"] = "Cecilifier";
     var fromGist = Model.FromGist;
 }
+
 <div xmlns="http://www.w3.org/1999/html">
-    
+    <div id="releaseNotesDiv" class="sidenav">
+        <a href="#" onclick="hideReleaseNotes()">Close</a>
+            <div id="releaseNotesText"></div>
+        </div>
+    </div>
+
+    <div id="mainContent">
     <div class="form-group" data-tooltip="Type any valid C# code to generate the equivalent Cecil api calls. " data-tooltip-location="right">
         <label class="control-label">Enter your C# code</label>
         <textarea id="_csharpcode"></textarea>
@@ -34,9 +41,6 @@
         <div style="font-family:Lucida Console; font-size: 2">Editor powered by <a href="https://github.com/codemirror/codemirror" target="_codemirror">CodeMirror</a></div>
     </div>
     <a href="javascript:void(0)" id="dlbtn" style="display: none"><button></button></a>
-    <div class="alert info2" id="cecilifier_new_release">
-        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        <div></div>
     </div>
 </div>
 
