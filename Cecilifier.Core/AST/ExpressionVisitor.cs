@@ -99,6 +99,18 @@ namespace Cecilifier.Core.AST
             return ev.valueTypeNoArgObjCreation;
         }
 
+        public override void VisitReturnStatement(ReturnStatementSyntax node)
+        {
+            node.Expression.Accept(this);
+            InjectRequiredConversions(node.Expression);
+        }
+
+        public override void VisitArrowExpressionClause(ArrowExpressionClauseSyntax node)
+        {
+            node.Expression.Accept(this);
+            InjectRequiredConversions(node.Expression);
+        }
+
         public override void VisitStackAllocArrayCreationExpression(StackAllocArrayCreationExpressionSyntax node)
         {
             /*
@@ -237,8 +249,6 @@ namespace Cecilifier.Core.AST
                 ilVar,
                 Context.SemanticModel.GetTypeInfo(node.Left).Type,
                 Context.SemanticModel.GetTypeInfo(node.Right).Type);
-            
-            InjectRequiredConversions(node);            
         }
 
         public override void VisitLiteralExpression(LiteralExpressionSyntax node)
@@ -536,13 +546,6 @@ namespace Cecilifier.Core.AST
         {
             AddCilInstruction(ilVar, OpCodes.Ldarg_0);
             base.VisitThisExpression(node);
-        }
-
-        public override void VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
-        {
-            base.VisitMemberAccessExpression(node);
-            if (!node.Parent.IsKind(SyntaxKind.SimpleMemberAccessExpression))
-                InjectRequiredConversions(node);
         }
 
         public override void VisitRefExpression(RefExpressionSyntax node)
